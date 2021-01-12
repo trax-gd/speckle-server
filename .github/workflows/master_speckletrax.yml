@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - master
+env:
+  SPECKLE_SERVER_PATH: ' ${{ github.workspace }}\packages\server'
 
 jobs:
   build-and-deploy:
@@ -22,9 +24,9 @@ jobs:
 
     - name: npm install, build, and test
       run: |
+        pushd '${{ env.SPECKLE_SERVER_PATH }}'
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        popd
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
@@ -32,4 +34,4 @@ jobs:
         app-name: 'speckletrax'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_46f464bb72fc422fb3a8abeb7e92135c }}
-        package: .
+        package: ${{ env.SPECKLE_SERVER_PATH }}
