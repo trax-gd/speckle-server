@@ -1,6 +1,67 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.ico><title>Speckle!</title><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css><link href=/js/chunk-2d22d746.95802905.js rel=prefetch><link href=/css/chunk-vendors.166fd10e.css rel=preload as=style><link href=/js/app.d87c0378.js rel=preload as=script><link href=/js/chunk-vendors.d0101c4c.js rel=preload as=script><link href=/css/chunk-vendors.166fd10e.css rel=stylesheet></head><body><noscript><strong>We're sorry but Speckle doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app><div style="width: 500px;
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.ico><title>Speckle</title><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css><style type=text/css>body {
+        background-color: #333333;
+        color: #0A66FF;
+      }
+      @media screen and (prefers-color-scheme: light) {
+        body {
+          background-color: white;
+          color: #0A66FF;
+        }
+      }
+      .tada {
+        -webkit-animation-name: tada;
+        animation-name: tada;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+      }
+      @-webkit-keyframes tada {
+        0% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+        10%, 20% {
+          -webkit-transform: scale3d(.8, .8, .8) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(.8, .8, .8) rotate3d(0, 0, 1, -3deg);
+        }
+        30%, 50%, 70%, 90% {
+          -webkit-transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, 3deg);
+          transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, 3deg);
+        }
+        40%, 60%, 80% {
+          -webkit-transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, -3deg);
+        }
+        100% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+      }
+      @keyframes tada {
+        0% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+        10%, 20% {
+          -webkit-transform: scale3d(.8, .8, .8) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(.8, .8, .8) rotate3d(0, 0, 1, -3deg);
+        }
+        30%, 50%, 70%, 90% {
+          -webkit-transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, 3deg);
+          transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, 3deg);
+        }
+        40%, 60%, 80% {
+          -webkit-transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(1.4, 1.4, 1.4) rotate3d(0, 0, 1, -3deg);
+        }
+        100% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+      }</style><link href=/css/chunk-0226d98a.b487c253.css rel=prefetch><link href=/css/chunk-0795a738.1f2409f5.css rel=prefetch><link href=/css/chunk-087a4dc2.807c857c.css rel=prefetch><link href=/css/chunk-096b3c01.9814ad34.css rel=prefetch><link href=/css/chunk-14db91b4.fab89c46.css rel=prefetch><link href=/css/chunk-19772257.1bbdaac2.css rel=prefetch><link href=/css/chunk-1d518a47.06211493.css rel=prefetch><link href=/css/chunk-23d0d4da.b2008f47.css rel=prefetch><link href=/css/chunk-36241c9a.9814ad34.css rel=prefetch><link href=/css/chunk-39862bf6.4b83cbbc.css rel=prefetch><link href=/css/chunk-43d2f673.7bdd0c43.css rel=prefetch><link href=/css/chunk-45dede21.353bba0a.css rel=prefetch><link href=/css/chunk-48576b80.a81e8c89.css rel=prefetch><link href=/css/chunk-4b468322.1db2e0dc.css rel=prefetch><link href=/css/chunk-548f0a04.06dc1efa.css rel=prefetch><link href=/css/chunk-5dfad28e.ec7650a9.css rel=prefetch><link href=/css/chunk-732ba71e.c91751e1.css rel=prefetch><link href=/css/chunk-7b743cbb.be6ce596.css rel=prefetch><link href=/css/chunk-aa0d0836.d07f36a8.css rel=prefetch><link href=/css/chunk-b061bdfa.67cbf147.css rel=prefetch><link href=/css/chunk-e850d9f8.47056576.css rel=prefetch><link href=/js/chunk-0226d98a.a55583ee.js rel=prefetch><link href=/js/chunk-0795a738.fbce2c13.js rel=prefetch><link href=/js/chunk-087a4dc2.146f0a7c.js rel=prefetch><link href=/js/chunk-096b3c01.a2a5f11b.js rel=prefetch><link href=/js/chunk-14db91b4.2e0feb10.js rel=prefetch><link href=/js/chunk-19772257.2c2e124a.js rel=prefetch><link href=/js/chunk-1d518a47.9217ca40.js rel=prefetch><link href=/js/chunk-23d0d4da.e4b55734.js rel=prefetch><link href=/js/chunk-2d0c8c18.c4bdeea5.js rel=prefetch><link href=/js/chunk-2d0c8ff6.2b71f8fb.js rel=prefetch><link href=/js/chunk-2d22cdf7.6ef7c774.js rel=prefetch><link href=/js/chunk-36241c9a.1db2ce9a.js rel=prefetch><link href=/js/chunk-39862bf6.7ce6782c.js rel=prefetch><link href=/js/chunk-43d2f673.2ad5e05e.js rel=prefetch><link href=/js/chunk-45dede21.179eb2c5.js rel=prefetch><link href=/js/chunk-48576b80.f3045d6a.js rel=prefetch><link href=/js/chunk-4b468322.2b2ce65c.js rel=prefetch><link href=/js/chunk-548f0a04.d71e5e72.js rel=prefetch><link href=/js/chunk-5dfad28e.a329fc34.js rel=prefetch><link href=/js/chunk-732ba71e.dc722cce.js rel=prefetch><link href=/js/chunk-7b743cbb.c3b677ec.js rel=prefetch><link href=/js/chunk-aa0d0836.7425d810.js rel=prefetch><link href=/js/chunk-b061bdfa.2bd4bf55.js rel=prefetch><link href=/js/chunk-e850d9f8.a4c1b84e.js rel=prefetch><link href=/css/app.286e3040.css rel=preload as=style><link href=/css/chunk-vendors.78cc2cdf.css rel=preload as=style><link href=/js/app.510fb1bb.js rel=preload as=script><link href=/js/chunk-vendors.06412f65.js rel=preload as=script><link href=/css/chunk-vendors.78cc2cdf.css rel=stylesheet><link href=/css/app.286e3040.css rel=stylesheet></head><body><noscript><strong>We're sorry but Speckle doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app><div style="width: 100%;
       height: 300px;
-      line-height: 300px;
       font-family: sans-serif !important;
       position: absolute;
       top:0;
@@ -10,4 +71,4 @@
       margin: auto;
       text-align: center;
       font-weight: 400;
-      font-size: 60px;">🔑</div><script src=/js/chunk-vendors.d0101c4c.js></script><script src=/js/app.d87c0378.js></script></div></body></html>
+      font-size: 10px;"><img src=/logo.svg style="max-width: 50px" class=tada></div><script src=/js/chunk-vendors.06412f65.js></script><script src=/js/app.510fb1bb.js></script></div></body></html>
