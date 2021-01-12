@@ -8,11 +8,11 @@ on:
     branches:
       - master
 env:
-  SPECKLE_SERVER_PATH: ${{ github.workspace }}\packages\server
+  SPECKLE_SERVER_PATH: ${{ github.workspace }}/packages/server
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@master
@@ -32,6 +32,6 @@ jobs:
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'speckletrax'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_46f464bb72fc422fb3a8abeb7e92135c }}
+        app-name: 'speckletraxapp'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
         package: ${{ env.SPECKLE_SERVER_PATH }}
