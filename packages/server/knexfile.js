@@ -43,7 +43,7 @@ module.exports = {
       password : process.env.POSTGRES_PASSWORD,
       database : process.env.POSTGRES_DB,
       charset: 'utf8',
-      ssl: true
+      ssl: false
     },
     migrations: {
       directory: migrationDirs

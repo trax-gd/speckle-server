@@ -18,14 +18,25 @@ module.exports = ( app ) => {
   passport.deserializeUser( ( user, done ) => done( null, user ) )
   app.use( passport.initialize( ) )
 
-  let session = ExpressSession( {
-    store: new RedisStore( { client: redis.createClient(process.env.REDISPORT, process.env.REDISCACHEHOSTNAME,
-      {auth_pass: process.env.REDISCACHEKEY, tls: {servername: process.env.REDISCACHEHOSTNAME}})}),
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
-    resave: false,
-    cookie: { maxAge: 1000 * 60 * 3 } // 3 minutes
-  } )
+  let session = null
+  if(process.env.REDIS_URL)  {
+    session = ExpressSession( {
+      store: new RedisStore( { client: redis.createClient(process.env.REDIS_URL)}),
+      secret: process.env.SESSION_SECRET,
+      saveUninitialized: false,
+      resave: false,
+      cookie: { maxAge: 1000 * 60 * 3 } // 3 minutes
+    } )
+  } else {
+    session = ExpressSession( {
+      store: new RedisStore( { client: redis.createClient(process.env.REDISPORT, process.env.REDISCACHEHOSTNAME,
+        {auth_pass: process.env.REDISCACHEKEY, tls: {servername: process.env.REDISCACHEHOSTNAME}})}),
+      secret: process.env.SESSION_SECRET,
+      saveUninitialized: false,
+      resave: false,
+      cookie: { maxAge: 1000 * 60 * 3 } // 3 minutes
+    } )
+  }
 
   let sessionStorage = ( req, res, next ) => {
     if ( !req.query.challenge )
