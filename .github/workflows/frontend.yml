@@ -1,0 +1,32 @@
+
+name: Deploy Frontend - speckletrax
+
+on:
+  push:
+    branches:
+      - master
+env:
+  APP_PATH: ${{ github.workspace }}/packages/frontend
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: 'Resolve Project Dependencies Using Npm'
+        shell: pwsh
+        run: |
+          pushd '${{ env.APP_PATH }}'
+          npm install
+          npm run build
+          popd
+      - uses: bacongobbler/azure-blob-storage-upload@v1.1.1
+        with:
+          source_dir: '${{ env.APP_PATH }}/dist'
+          container_name: '$web'
+          connection_string: ${{ secrets.stagingFrontendStorageConnectionString }}
+          sync: true
