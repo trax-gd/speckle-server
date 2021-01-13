@@ -36,7 +36,7 @@ jobs:
         pushd '${{ env.FRONTEND_PATH }}'
         npm install
         npm run build
-        cp ./dist '${{SPECKLE_SERVER_PATH}}/frontend'
+        cp ./dist ${{env.SPECKLE_SERVER_PATH}}/frontend
         popd
   
     - name: 'Deploy to Azure Web App'
