@@ -36,12 +36,9 @@ jobs:
         pushd '${{ env.FRONTEND_PATH }}'
         npm install
         npm run build
+        cp ./dist ${{SPECKLE_SERVER_PATH}}/frontend
         popd
-    - name: 'Copy Frontend'
-      uses: canastro/copy-file-action@master
-      with:
-        source: '${{ env.FRONTEND_PATH }}/dist'
-        target: '${{ env.SPECKLE_SERVER_PATH }}/frontend'
+  
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
