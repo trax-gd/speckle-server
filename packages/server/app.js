@@ -99,26 +99,27 @@ exports.startHttp = async ( app ) => {
   app.set( 'port', port )
 
   let frontendPort = process.env.FRONTEND_PORT || 8080
+  let frontendPath = process.env.FRONTEND_PATH || '/../frontend/dist'
 
   // Handles frontend proxying:
   // Dev mode -> proxy form the local webpack server
-  //if ( process.env.NODE_ENV === 'development' ) {
+  if ( process.env.NODE_ENV === 'development' ) {
     const frontendProxy = createProxyMiddleware( { target: `${process.env.FRONTEND_URL}`, changeOrigin: true, ws: false, logLevel: 'silent' } )
     app.use( '/', frontendProxy )
 
     debug( 'speckle:startup' )( '✨ Proxying frontend (dev mode):' )
     debug( 'speckle:startup' )( `👉 main application:${process.env.FRONTEND_URL}}` )
     debug( 'speckle:hint' )( 'ℹ️  Don\'t forget to run "npm run dev:frontend" in a different terminal to start the vue application.' )
-  //}
+  }
 
   // Production mode -> serve things statically.
-  //else {
- //   app.use( '/', express.static( path.resolve( `${appRoot}/../frontend/dist` ) ) )
+  else {
+    app.use( '/', express.static( path.resolve( `${appRoot}/${frontendPath}` ) ) )
 
- //   app.all( '*', async ( req, res ) => {
-  //    res.sendFile( path.resolve( `${appRoot}/../frontend/dist/app.html` ) )
-  //  } )
-  //}
+    app.all( '*', async ( req, res ) => {
+      res.sendFile( path.resolve( `${appRoot}/${frontendPath}/app.html` ) )
+    } )
+  }
 
   let server = http.createServer( app )
 
