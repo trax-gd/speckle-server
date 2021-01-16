@@ -1,47 +1,47 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-# name: Build and deploy Node.js app to Azure Web App - speckletrax
+name: Build and deploy Node.js app to Azure Web App - speckletrax
 
-# on:
-#   push:
-#     branches:
-#       - master
-# env:
-#   SPECKLE_SERVER_PATH: ${{ github.workspace }}/packages/server
-#   FRONTEND_PATH: ${{ github.workspace }}/packages/frontend
+on:
+  push:
+    branches:
+      - azure
+env:
+  SPECKLE_SERVER_PATH: ${{ github.workspace }}/packages/server
+  FRONTEND_PATH: ${{ github.workspace }}/packages/frontend
 
-# jobs:
-#   build-and-deploy:
-#     runs-on: ubuntu-latest
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - uses: actions/checkout@master
+    steps:
+    - uses: actions/checkout@master
 
-#     - name: Set up Node.js version
-#       uses: actions/setup-node@v1
-#       with:
-#         node-version: '12.x'
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
 
-#     - name: npm install, build, and test
-#       shell: pwsh
-#       run: |
-#         pushd '${{ env.SPECKLE_SERVER_PATH }}'
-#         npm install
-#         mkdir frontend
-#         popd
-#     - name: 'Build Frontend'
-#       shell: pwsh
-#       run: |
-#         pushd '${{ env.FRONTEND_PATH }}'
-#         npm install
-#         npm run build
-#         cp -rf ./dist ${{env.SPECKLE_SERVER_PATH}}/frontend
-#         popd
+    - name: npm install, build, and test
+      shell: pwsh
+      run: |
+        pushd '${{ env.SPECKLE_SERVER_PATH }}'
+        npm install
+        mkdir frontend
+        popd
+    - name: 'Build Frontend'
+      shell: pwsh
+      run: |
+        pushd '${{ env.FRONTEND_PATH }}'
+        npm install
+        npm run build
+        cp -rf ./dist ${{env.SPECKLE_SERVER_PATH}}/frontend
+        popd
   
-#     - name: 'Deploy to Azure Web App'
-#       uses: azure/webapps-deploy@v2
-#       with:
-#         app-name: 'speckletraxapp'
-#         publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
-#         package: ${{ env.SPECKLE_SERVER_PATH }}
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'speckletraxapp'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
+        package: ${{ env.SPECKLE_SERVER_PATH }}
