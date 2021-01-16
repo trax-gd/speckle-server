@@ -36,14 +36,30 @@ module.exports = {
   },
   development: {
     client: 'pg',
-    connection: process.env.POSTGRES_URL || 'postgres://localhost/speckle2_dev',
+    //connection: process.env.POSTGRES_URL || 'postgres://localhost/speckle2_dev',
+    connection: {
+      host : process.env.POSTGRES_HOST,
+      user : process.env.POSTGRES_USER,
+      password : process.env.POSTGRES_PASSWORD,
+      database : process.env.POSTGRES_DB,
+      charset: 'utf8',
+      ssl: true
+    },
     migrations: {
       directory: migrationDirs
     },
   },
   production: {
     client: 'pg',
-    connection: process.env.POSTGRES_URL,
+    //connection: process.env.POSTGRES_URL,
+    connection: {
+      host : process.env.POSTGRES_HOST,
+      user : process.env.POSTGRES_USER,
+      password : process.env.POSTGRES_PASSWORD,
+      database : process.env.POSTGRES_DB,
+      charset: 'utf8',
+      ssl: true
+    },
     migrations: {
       directory: migrationDirs
     }
