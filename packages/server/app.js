@@ -99,7 +99,7 @@ exports.startHttp = async ( app ) => {
   app.set( 'port', port )
 
   let frontendPort = process.env.FRONTEND_PORT || 8080
-
+  let frontendPath = process.env.FRONTEND_PATH || '/../frontend/dist'
   // Handles frontend proxying:
   // Dev mode -> proxy form the local webpack server
   if ( process.env.NODE_ENV === 'development' ) {
@@ -113,10 +113,10 @@ exports.startHttp = async ( app ) => {
 
   // Production mode -> serve things statically.
   else {
-    app.use( '/', express.static( path.resolve( `${appRoot}/../frontend/dist` ) ) )
+    app.use( '/', express.static( path.resolve( `${appRoot}/${frontendPath}` ) ) )
 
     app.all( '*', async ( req, res ) => {
-      res.sendFile( path.resolve( `${appRoot}/../frontend/dist/app.html` ) )
+      res.sendFile( path.resolve( `${appRoot}/${frontendPath}/app.html` ) )
     } )
   }
 

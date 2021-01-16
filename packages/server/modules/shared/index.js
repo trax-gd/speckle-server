@@ -7,12 +7,24 @@ const { ForbiddenError, ApolloError } = require( 'apollo-server-express' )
 const { RedisPubSub } = require( 'graphql-redis-subscriptions' )
 const { validateToken } = require( `${appRoot}/modules/core/services/tokens` )
 
-
+/*
 let pubsub = new RedisPubSub( {
   publisher: new Redis( process.env.REDIS_URL ),
   subscriber: new Redis( process.env.REDIS_URL ),
-} )
+} )*/
 
+let pubsub = new RedisPubSub( {
+  publisher: new Redis( {
+    port: process.env.REDISPORT, // Redis port
+    host: process.env.REDISCACHEHOSTNAME, // Redis host
+    password: process.env.REDISCACHEKEY,
+  } ),
+  subscriber: new Redis( {
+    port: process.env.REDISPORT, // Redis port
+    host: process.env.REDISCACHEHOSTNAME, // Redis host
+    password: process.env.REDISCACHEKEY,
+  } ),
+} )
 /**
  * Graphql server context helper: sets req.context to have an auth prop (true/false), userId and server role.
  */
