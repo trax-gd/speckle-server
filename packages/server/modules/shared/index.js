@@ -18,11 +18,13 @@ let pubsub = new RedisPubSub( {
     port: process.env.REDISPORT, // Redis port
     host: process.env.REDISCACHEHOSTNAME, // Redis host
     password: process.env.REDISCACHEKEY,
+    tls: true
   } ),
   subscriber: new Redis( {
     port: process.env.REDISPORT, // Redis port
     host: process.env.REDISCACHEHOSTNAME, // Redis host
     password: process.env.REDISCACHEKEY,
+    tls: true
   } ),
 } )
 /**

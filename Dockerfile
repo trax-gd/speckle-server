@@ -31,3 +31,10 @@ CMD [ "node", "./bin/www" ]
 # `docker build -t sbreslav/speckle-server .`
 # `docker images` will list your images
 # `docker run -p 80:80 -d sbreslav/speckle-server `
+
+#docker tag sbreslav/speckle-server traxcontainers.azurecr.io/speckle-server:v1
+#docker push traxcontainers.azurecr.io/speckle-server:v1
+#docker rmi traxcontainers.azurecr.io/speckle-server:v1
+# docker system prune -a
+# docker images -a
+# docker ps -a
