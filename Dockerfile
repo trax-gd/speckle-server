@@ -1,40 +1,48 @@
-FROM mhart/alpine-node:12
-# Create app directory
-WORKDIR /app
+FROM node:12.20.1-alpine3.12@sha256:42998ae4420998ff3255fc2d6884e882bd32f06d45b057f4b042e33bf48a1240 as build
+# Having multiple steps in builder doesn't increase the final image size
+# So having verbose steps for readability and caching should be the target 
 
-# Bundle app source
-COPY . .
+WORKDIR /opt
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+# Copy package defs first they are the least likely to change
+# Keeping this order will least likely trigger full rebuild
+COPY packages/frontend/package*.json frontend/
+RUN npm --prefix frontend ci frontend
 
+COPY packages/server/package*.json server/
+ENV NODE_ENV production
+RUN npm --prefix server ci server
+
+# Copy remaining files across for frontend. Changes to these files 
+# will be more common than changes to the dependencies. This should 
+# speed up rebuilds.
+COPY packages/frontend frontend
+
+WORKDIR /opt/frontend
 RUN npm run build
 
-FROM mhart/alpine-node:slim-12
+FROM node:12.20.1-alpine3.12@sha256:42998ae4420998ff3255fc2d6884e882bd32f06d45b057f4b042e33bf48a1240
 
-# If possible, run your container using `docker run --init`
-# Otherwise, you can use `tini`:
-# RUN apk add --no-cache tini
-# ENTRYPOINT ["/sbin/tini", "--"]
+RUN apk add --no-cache tini=0.19.0-r0
 
-WORKDIR /app
-COPY --from=0 /app .
-COPY . .
+# Use a non-root user for increased security.
+USER node
 
-EXPOSE 3000
+ENV NODE_ENV production
 
-WORKDIR /app/packages/server
+# Copy dependencies and static files from build layer
+COPY --from=build --chown=node /opt/frontend/dist /home/node/frontend/dist
+COPY --from=build --chown=node /opt/server /home/node/server
 
-CMD [ "node", "./bin/www" ]
+# Run the application from the non root users home directory
+WORKDIR /home/node/server
 
-# `docker build -t sbreslav/speckle-server .`
-# `docker images` will list your images
-# `docker run -p 80:80 -d sbreslav/speckle-server `
+# Copy remaining files across for the server. Changes to these 
+# files will be more common than changes to the dependencies. 
+# This should speed up rebuilds.
+COPY --chown=node packages/server /home/node/server
 
-#docker tag sbreslav/speckle-server traxcontainers.azurecr.io/speckle-server:v1
-#docker push traxcontainers.azurecr.io/speckle-server:v1
-#docker rmi traxcontainers.azurecr.io/speckle-server:v1
-# docker system prune -a
-# docker images -a
-# docker ps -a
+# Init for containers https://github.com/krallin/tini
+ENTRYPOINT [ "/sbin/tini", "--" ]
+
+CMD ["node", "bin/www"]

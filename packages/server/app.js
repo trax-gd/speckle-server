@@ -3,7 +3,6 @@
 
 const http = require( 'http' )
 const url = require( 'url' )
-const WebSocket = require( 'ws' )
 const express = require( 'express' )
 const compression = require( 'compression' )
 const appRoot = require( 'app-root-path' )
@@ -87,7 +86,6 @@ exports.init = async ( ) => {
   return { app, graphqlServer }
 }
 
-const { createProxyMiddleware } = require( 'http-proxy-middleware' )
 
 /**
  * Starts a http server, hoisting the express app to it.
@@ -100,14 +98,16 @@ exports.startHttp = async ( app ) => {
 
   let frontendPort = process.env.FRONTEND_PORT || 8080
   let frontendPath = process.env.FRONTEND_PATH || '/../frontend/dist'
+
   // Handles frontend proxying:
   // Dev mode -> proxy form the local webpack server
   if ( process.env.NODE_ENV === 'development' ) {
+    const { createProxyMiddleware } = require( 'http-proxy-middleware' )
     const frontendProxy = createProxyMiddleware( { target: `http://localhost:${frontendPort}`, changeOrigin: true, ws: false, logLevel: 'silent' } )
     app.use( '/', frontendProxy )
 
     debug( 'speckle:startup' )( '✨ Proxying frontend (dev mode):' )
-    debug( 'speckle:startup' )( `👉 main application: http://localhost:${port}/` )
+    debug( 'speckle:startup' )( `👉 main application:${process.env.FRONTEND_URL}}` )
     debug( 'speckle:hint' )( 'ℹ️  Don\'t forget to run "npm run dev:frontend" in a different terminal to start the vue application.' )
   }
 
