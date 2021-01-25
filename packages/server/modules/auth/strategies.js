@@ -72,6 +72,13 @@ module.exports = ( app ) => {
 
   let strategyCount = 0
 
+  if ( process.env.STRATEGY_AZUREAD === 'true' ) {
+    let azureadStrategy = require( './strategies/azure' )( app, session, sessionStorage, finalizeAuth )
+    //console.log('doingAzure', azureadStrategy);
+    authStrategies.push( azureadStrategy )
+    strategyCount++
+  }
+
   if ( process.env.STRATEGY_GOOGLE === 'true' ) {
     let googStrategy = require( './strategies/google' )( app, session, sessionStorage, finalizeAuth )
     authStrategies.push( googStrategy )
