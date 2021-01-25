@@ -53,20 +53,7 @@ module.exports = ( app, session, sessionStorage, finalizeAuth ) => {
     passport.use( myStrategy )
   
     app.get( strategy.url, session, sessionStorage, passport.authenticate( 'azuread-openidconnect', { failureRedirect: '/auth/error' }  ) )
-    app.get( '/auth/azure/callback', session, passport.authenticate( 'azuread-openidconnect', { failureRedirect: '/auth/error' } ), async ( req, res, next ) => {
-        console.log('testing /auth/azure/callback');
-        try {
-          let app = await getApp( { id: 'spklwebapp' } )
-          let ac = await createAuthorizationCode( { appId: 'spklwebapp', userId: req.user.id, challenge: req.session.challenge } )
-    
-          if ( req.session ) req.session.destroy( )
-          return res.redirect( `${app.redirectUrl}?access_code=${ac}` )
-        } catch ( err ) {
-          sentry( { err } )
-          if ( req.session ) req.session.destroy( )
-          return res.status( 401 ).send( 'Invalid request.' )
-        }
-      } );
+    app.get( '/auth/azure/callback', session, passport.authenticate( 'azuread-openidconnect', { failureRedirect: '/auth/error' } ), finalizeAuth );
   
     return strategy
   }
