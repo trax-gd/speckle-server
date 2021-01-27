@@ -10,9 +10,9 @@ const { findOrCreateUser } = require( `${appRoot}/modules/core/services/users` )
 
 module.exports = ( app, session, sessionStorage, finalizeAuth ) => {
     const strategy = {
-      id: 'azuread-openidconnect',
-      name: 'Azure Active Directory',
-      icon: 'mdi-microsoft-azure',
+      id: 'azuread',
+      name: 'Microsoft Work/School Account',
+      icon: 'mdi-microsoft',
       color: 'blue darken-3',
       url: '/auth/azure',
       callbackUrl: ( new URL( '/auth/azure/callback', process.env.CANONICAL_URL ) ).toString( )
@@ -21,8 +21,8 @@ module.exports = ( app, session, sessionStorage, finalizeAuth ) => {
     let myStrategy = new OIDCStrategy( {
       identityMetadata: process.env.AZUREAD_IDENTITY_METADATA,
       clientID: process.env.AZUREAD_CLIENT_ID,
-      responseType: 'code id_token',
-      responseMode: 'form_post',
+      responseType: 'code id_token', 
+      responseMode: 'form_post', 
       issuer: process.env.AZUREAD_TENANT,
       redirectUrl: strategy.callbackUrl,
       allowHttpForRedirectUrl: true,
@@ -32,21 +32,14 @@ module.exports = ( app, session, sessionStorage, finalizeAuth ) => {
       passReqToCallback: true
     }, async ( req, iss, sub, profile, accessToken, refreshToken, done ) => {
 
-      console.log('Azure auth session', req.session);
-      console.log('Azure auth iss', iss);
-      console.log('Azure auth sub', sub);
-      console.log('Azure auth profile', profile);
-
-      let email = profile.emails[ 0 ].value
-      let name = profile.displayName
-  
-      let user = { email, name, avatar: profile._json.picture }
+      let email = profile.upn 
+      let name = profile.name
+      let user = { email, name }
   
       if ( req.session.suuid ) {
         user.suuid = req.session.suuid
       }
-  
-      let myUser = await findOrCreateUser( { user: user, rawProfile: profile._raw } )
+      let myUser = await findOrCreateUser( { user: user } )
       return done( null, myUser )
     } )
   
@@ -54,6 +47,6 @@ module.exports = ( app, session, sessionStorage, finalizeAuth ) => {
   
     app.get( strategy.url, session, sessionStorage, passport.authenticate( 'azuread-openidconnect', { failureRedirect: '/auth/error' }  ) )
     app.get( '/auth/azure/callback', session, passport.authenticate( 'azuread-openidconnect', { failureRedirect: '/auth/error' } ), finalizeAuth );
-  
+   
     return strategy
   }
