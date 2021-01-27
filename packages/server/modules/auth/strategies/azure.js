@@ -3,7 +3,6 @@
 
 const passport = require('passport')
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const Strategy  = require('passport-azure-ad').Strategy
 const URL = require( 'url' ).URL
 const appRoot = require( 'app-root-path' )
 const { findOrCreateUser } = require( `${appRoot}/modules/core/services/users` )
